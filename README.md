@@ -1,1 +1,1 @@
-# Posture_Detection
+# Thesis
