@@ -15,10 +15,10 @@ import ui
 
 
 # Define file paths
-model_keypoints_path = r'.\yolov8n-pose.pt'
-model_classification_path = r'.\best.pt'
-keypoints_dir = r'.\gallery\photos\keypoints'
-patient_data_dir = r".\patient_data"
+model_keypoints_path = r'yolov8n-pose.pt'
+model_classification_path = r'best.pt'
+keypoints_dir = r'gallery\photos\keypoints'
+patient_data_dir = r"patient_data"
 
 live_label = None
 good_gallery_scrollable = None

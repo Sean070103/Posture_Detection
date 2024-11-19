@@ -18,13 +18,13 @@ from PIL import Image
 
 
 # Paths to directories and models
-photos_dir = r'.\gallery\photos'
-keypoints_dir = r'.\gallery\photos\keypoints'
-model_keypoints_path = r'.\yolov8n-pose.pt'
-model_classification_path = r'.\best.pt'
+photos_dir = r'gallery\photos'
+keypoints_dir = r'gallery\photos\keypoints'
+model_keypoints_path = r'yolov8n-pose.pt'
+model_classification_path = r'best.pt'
 
 # Patient data directory
-patient_data_dir = r".\patient_data"
+patient_data_dir = r"patient_data"
 global selected_patient_folder
 
 # Load the YOLO models
