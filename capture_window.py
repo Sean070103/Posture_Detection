@@ -10,6 +10,8 @@ import time
 import json
 import random
 import tkinter as tk
+from customtkinter import CTkImage
+import ui
 
 
 # Define file paths
@@ -40,7 +42,7 @@ root.grid_rowconfigure(0, weight=1)
 root.grid_columnconfigure(0, weight=1)
 
 # Global variables
-cap = None
+# cap = None
 capturing = False
 
 # Recommendations
@@ -109,6 +111,7 @@ def stop_live_capture():
 def update_frame():
     global cap
     global live_label
+    width, height = 640, 480
     if cap is not None and cap.isOpened():
         try:
             # Read a new frame
@@ -151,7 +154,8 @@ def update_frame():
                 # Convert frame for display in the GUI
                 cv2image = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
                 img = Image.fromarray(cv2image)
-                imgtk = ImageTk.PhotoImage(image=img)
+                # imgtk = ImageTk.PhotoImage(image=img)
+                imgtk = CTkImage(img, size=(width, height))
                 live_label.imgtk = imgtk
                 live_label.configure(image=imgtk)
                 live_label.update_idletasks()
@@ -165,7 +169,6 @@ def update_frame():
 
     live_label.after(10, update_frame)
 
-capturing = False
 patient_id=""
 
 
@@ -173,11 +176,15 @@ patient_id=""
 
 
 
-def capture_image():
+def capture_image(name):
     global capturing
     global patient_id
+    for i in range(100):
+        print(capturing)
+    if capturing and cap is not None and cap.isOpened():
+        
+        
 
-    if not capturing and cap is not None and cap.isOpened():
         capturing = True
 
         def capture_task():
@@ -225,10 +232,23 @@ def capture_image():
 
                         # Save annotated image and keypoints
                         timestamp = int(time.time())
-                        folder = bad_posture_folder if posture_text == "Bad" else good_posture_folder
-                        img_name = os.path.join(folder, f"image_with_keypoints_{timestamp}.png")
+                        print(name != "nigga")
+                        print(name)
+                        print("bruh")
+                        
+                        folder = f"C:\\Users\\garci\\Documents\\GitHub\\Bruh\\Posture_Detection\\patient_data\\{name}"
+                        good_posture_folder = f"C:\\Users\\garci\\Documents\\GitHub\\Bruh\\Posture_Detection\\patient_data\\{name}\\good_posture"
+                        bad_posture_folder = f"C:\\Users\\garci\\Documents\\GitHub\\Bruh\\Posture_Detection\\patient_data\\{name}\\bad_posture"
+                        # folder = bad_posture_folder if posture_text == "Bad" else good_posture_folder
+                        if posture_text == "Bad":
+                            img_name = os.path.join(bad_posture_folder, f"image_with_keypoints_{timestamp}.png")
+                        else:
+                            img_name = os.path.join(good_posture_folder, f"image_with_keypoints_{timestamp}.png")
+                        
+                        # C:\Users\garci\Documents\GitHub\Bruh\Posture_Detection\patient_data\nigga
+                        # img_name = os.path.join(folder, f"image_with_keypoints_{timestamp}.png")
+                        
                         cv2.imwrite(img_name, annotated_frame)
-
                         # Update the gallery with the captured image immediately
                         gallery_frame(img_name, posture_text)
 
@@ -239,7 +259,7 @@ def capture_image():
             except Exception as e:
                 print(f"Error during capture: {e}")
             finally:
-                capturing = False
+                capturing = True
 
         # Start the capture task in a separate thread
         threading.Thread(target=capture_task).start()
@@ -449,12 +469,14 @@ def toggle_gallery_visibility(frame, button):
         frame.pack(fill="both", padx=10, pady=10)
         button.configure(text="Collapse")
 
-def open_capture_window(master):
+def open_capture_window(master, name):
+    print(name)
+    global root
     global good_gallery_scrollable
     global bad_gallery_scrollable
     global live_label
     # Left-side gallery frame containing "Good" and "Bad" posture sections
-    gallery_frame = ctk.CTkFrame(master=root, fg_color="#2f3136")
+    gallery_frame = ctk.CTkFrame(root, fg_color="#2f3136")
     gallery_frame.grid(row=0, column=0, rowspan=2, sticky="nswe", padx=5, pady=5)
 
     # Good Posture Frame with Label, Minimize/Maximize Button, and Scrollable Area
@@ -495,7 +517,7 @@ def open_capture_window(master):
 
 
     # Center live capture frame
-    capture_frame = ctk.CTkFrame(master=root, fg_color="#d3d3d3")
+    capture_frame = ctk.CTkFrame(root, fg_color="#d3d3d3")
     capture_frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
 
@@ -534,64 +556,69 @@ def open_capture_window(master):
 
 
 
+    # # Buttons with icons and commands
+    # buttons = [
+    #     ("Capture", capture_image),
+    #     ("Start Live Capture", start_live_capture),
+    #     ("Save", save_data),
+
+    # ]
+
+    # button_container = ctk.CTkFrame(button_frame, fg_color="#2f3136")
+    # button_container.grid(row=1, column=0, padx=10, pady=10)
+
+    # for i, (text, command) in enumerate(buttons):
+    #     button = ctk.CTkButton(button_container, text=text, command=command, fg_color="#424549", text_color="white", width=150)
+    #     button.grid(row=i, column=0, padx=10, pady=10, sticky="n")
+
+
+
     # Buttons with icons and commands
-    buttons = [
-        ("Capture", capture_image),
-        ("Start Live Capture", start_live_capture),
-        ("Save", save_data),
-
-    ]
-
     button_container = ctk.CTkFrame(button_frame, fg_color="#2f3136")
     button_container.grid(row=1, column=0, padx=10, pady=10)
 
-    for i, (text, command) in enumerate(buttons):
-        button = ctk.CTkButton(button_container, text=text, command=command, fg_color="#424549", text_color="white", width=150)
-        button.grid(row=i, column=0, padx=10, pady=10, sticky="n")
+    # # Manually initialize each button
+    # button_capture = ctk.CTkButton(
+    #     button_container, text="Capture", command=capture_image, 
+    #     fg_color="#424549", text_color="white", width=150
+    # )
 
+    # button_capture.grid(row=0, column=0, padx=10, pady=10, sticky="n")
+
+    # button_start_live_capture = ctk.CTkButton(
+    #     button_container, text="Start Live Capture", command=start_live_capture, 
+    #     fg_color="#424549", text_color="white", width=150
+    # )
+    # button_start_live_capture.grid(row=1, column=0, padx=10, pady=10, sticky="n")
+
+    # button_save = ctk.CTkButton(
+    #     button_container, text="Save", command=save_data, 
+    #     fg_color="#424549", text_color="white", width=150
+    # )
+    # button_save.grid(row=2, column=0, padx=10, pady=10, sticky="n")
+
+
+    # Update this section in open_capture_window
+    button_capture = tk.Button(
+        button_container, text="Capture", command=lambda: capture_image(name),
+        bg="#424549", fg="white", width=20  # Adjust the styling for tk.Button
+    )
+    button_capture.grid(row=0, column=0, padx=10, pady=10, sticky="n")
+
+    button_start_live_capture = tk.Button(
+        button_container, text="Start Live Capture", command=start_live_capture,
+        bg="#424549", fg="white", width=20
+    )
+    button_start_live_capture.grid(row=1, column=0, padx=10, pady=10, sticky="n")
+
+    button_save_data = tk.Button(
+        button_container, text="Save", command=save_data,
+        bg="#424549", fg="white", width=20
+    )
+    button_save_data.grid(row=2, column=0, padx=10, pady=10, sticky="n")
 
 # shi()
 
 
     # Run the application
     root.mainloop()  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

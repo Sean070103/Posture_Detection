@@ -13,6 +13,9 @@ set_appearance_mode("dark")  # Dark theme
 set_default_color_theme("dark-blue")  # Optionally set color theme
 
 curr_root = ""
+def get_patient_name():
+    global patient_name
+    return patient_name
 
 # Directory and file paths
 patient_data_dir = "./Patient_Data"
@@ -126,14 +129,14 @@ def create_patient_selection_section(master):
             patient_info_display.insert("1.0", f"Patient Information:\n\nName: {name}\nAge: {age}\nCondition: {condition}")
             patient_info_display.configure(state="disabled")
             create_session_gallery_section(master)
-
+            # print(patient_data)
 
             result = messagebox.askyesno("Start Capturing", "Do you want to start capturing?")
         if result:
             # capture_window()  # Placeholder for capture functionality
             messagebox.showinfo("Capture", "Starting the capturing process!")
-            capture_window.open_capture_window(curr_root)
-
+            capture_window.open_capture_window(curr_root, name)
+        
 
 
 
@@ -168,6 +171,17 @@ def create_patient_selection_section(master):
         patients[name] = {"Age": age, "Condition": condition}
         save_patient_data_to_file()  # Save to file
 
+        # Create the patient folder with subfolders for good and bad posture
+        base_path = r"C:\Users\garci\Documents\GitHub\Bruh\Posture_Detection\patient_data"
+        patient_folder = os.path.join(base_path, name)
+        
+        try:
+            os.makedirs(os.path.join(patient_folder, "good_posture"), exist_ok=True)
+            os.makedirs(os.path.join(patient_folder, "bad_posture"), exist_ok=True)
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to create folders: {str(e)}")
+            return
+
         # Update the dropdown with the new patient and clear entries
         patient_dropdown.configure(values=list(patients.keys()))
         clear_patient_data()
@@ -183,6 +197,7 @@ def create_patient_selection_section(master):
         command=lambda: load_and_start_capturing()
     )
         load_button.grid(row=10, column=0, pady=(10, 5), sticky="ew")
+    
 
     def load_and_start_capturing():
         selected_patient = patient_dropdown.get()
@@ -205,7 +220,6 @@ def create_patient_selection_section(master):
 
     clear_button = CTkButton(master=patient_frame, text="Clear Patient Data", fg_color="#d9534f", command=clear_patient_data)
     clear_button.grid(row=12, column=0, pady=(5, 10), sticky="ew")
-
 
 # Main application window
 root = CTk()
