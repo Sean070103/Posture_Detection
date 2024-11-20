@@ -1,6 +1,10 @@
 {
-    "bruh": {
+    "qwe": {
         "Age": "21",
-        "Condition": "schizo"
+        "Condition": "asd"
+    },
+    "hatdog": {
+        "Age": "12",
+        "Condition": "qwe"
     }
 }
