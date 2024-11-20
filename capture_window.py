@@ -4,7 +4,7 @@ import threading
 import cv2
 from ultralytics import YOLO
 from PIL import Image, ImageTk
-from customtkinter import CTkImage
+from customtkinter import CTkImage, CTkLabel
 import time
 import os
 import random
@@ -79,6 +79,27 @@ class Capture_window:
         # Scrollable area for Good Posture images
         self.good_gallery_scrollable.pack(fill="x", padx=5, pady=(0, 5))
 
+        # Specify the folder path containing the images
+        folder_path = f"C:\\Users\\garci\\Desktop\\Sean_Thesis\\patient_data\\{name}\\Good_Posture"
+
+        # Loop through all image files in the folder
+        for file_name in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, file_name)
+
+            # Check if the file is an image (you can extend this list with more extensions if needed)
+            if file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
+                try:
+                    # Load the image and create a CTkImage
+                    image = Image.open(file_path)
+                    my_image = CTkImage(light_image=image, size=(100, 100))  # Adjust size as needed
+
+                    # Create a label with the image and add it to the scrollable frame
+                    image_label = CTkLabel(master=self.good_gallery_scrollable, image=my_image, text="")  # Text empty for image-only display
+                    image_label.pack(padx=5, pady=5)
+
+                except Exception as e:
+                    print(f"Error loading image {file_name}: {e}")
+
         # Bad Posture Frame with Label, Minimize/Maximize Button, and Scrollable Area
         self.bad_frame.pack(fill="x", padx=10, pady=(5, 10))
 
@@ -93,6 +114,27 @@ class Capture_window:
 
         # Scrollable area for Bad Posture images
         self.bad_gallery_scrollable.pack(fill="x", padx=5, pady=(0, 5))
+
+        # Specify the folder path containing the images
+        folder_path = f"C:\\Users\\garci\\Desktop\\Sean_Thesis\\patient_data\\{name}\\Bad_Posture"
+
+        # Loop through all image files in the folder
+        for file_name in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, file_name)
+
+            # Check if the file is an image (you can extend this list with more extensions if needed)
+            if file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
+                try:
+                    # Load the image and create a CTkImage
+                    image = Image.open(file_path)
+                    my_image = CTkImage(light_image=image, size=(100, 100))  # Adjust size as needed
+
+                    # Create a label with the image and add it to the scrollable frame
+                    image_label = CTkLabel(master=self.bad_gallery_scrollable, image=my_image, text="")  # Text empty for image-only display
+                    image_label.pack(padx=5, pady=5)
+
+                except Exception as e:
+                    print(f"Error loading image {file_name}: {e}")
 
 
         # Center live capture frame
@@ -144,13 +186,7 @@ class Capture_window:
             bg="#424549", fg="white", width=20
         )
         button_save_data.grid(row=2, column=0, padx=10, pady=10, sticky="n")
-
-        go_back = tk.Button(
-            button_container, text="Exit", command=self.on_close(name),
-            bg="#424549", fg="white", width=20
-        )
-        go_back.grid(row=3, column=0, padx=10, pady=10, sticky="n")
-        
+ 
         self.root.wm_protocol("WM_DELETE_WINDOW", lambda: self.on_close(name))
         
         self.root.mainloop()

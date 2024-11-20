@@ -53,3 +53,24 @@ def create_session_gallery_section(master, name):
 
     bad_scrollable_frame = CTkScrollableFrame(master=gallery_frame, fg_color="#A9A9A9")
     bad_scrollable_frame.grid(row=3, column=1, padx=10, pady=10, sticky="nsew")
+
+    # Specify the folder path containing the images
+    folder_path = f"C:\\Users\\garci\\Desktop\\Sean_Thesis\\patient_data\\{name}\\Bad_Posture"
+
+    # Loop through all image files in the folder
+    for file_name in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file_name)
+
+        # Check if the file is an image (you can extend this list with more extensions if needed)
+        if file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
+            try:
+                # Load the image and create a CTkImage
+                image = Image.open(file_path)
+                my_image = CTkImage(light_image=image, size=(100, 100))  # Adjust size as needed
+
+                # Create a label with the image and add it to the scrollable frame
+                image_label = CTkLabel(master=bad_scrollable_frame, image=my_image, text="")  # Text empty for image-only display
+                image_label.pack(padx=5, pady=5)
+
+            except Exception as e:
+                print(f"Error loading image {file_name}: {e}")
