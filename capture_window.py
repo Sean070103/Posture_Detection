@@ -13,6 +13,8 @@ import json
 from Session_gallery import create_session_gallery_section
 # from Patient_selection import Patient_selection
 
+
+
 class Capture_window:
     def __init__(self, root, patient_selection_instance):
         self.patient_selection_instance = patient_selection_instance
@@ -79,26 +81,26 @@ class Capture_window:
         # Scrollable area for Good Posture images
         self.good_gallery_scrollable.pack(fill="x", padx=5, pady=(0, 5))
 
-        # Specify the folder path containing the images
-        folder_path = f"C:\\Users\\garci\\Desktop\\Sean_Thesis\\patient_data\\{name}\\Good_Posture"
+        # # Specify the folder path containing the images
+        # folder_path = f"C:\\Users\\admin3\\Posture_Detection-overhaul\\patient_data\\{name}\\Good_Posture"
 
-        # Loop through all image files in the folder
-        for file_name in os.listdir(folder_path):
-            file_path = os.path.join(folder_path, file_name)
+        # # Loop through all image files in the folder
+        # for file_name in os.listdir(folder_path):
+        #     file_path = os.path.join(folder_path, file_name)
 
-            # Check if the file is an image (you can extend this list with more extensions if needed)
-            if file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
-                try:
-                    # Load the image and create a CTkImage
-                    image = Image.open(file_path)
-                    my_image = CTkImage(light_image=image, size=(100, 100))  # Adjust size as needed
+        #     # Check if the file is an image (you can extend this list with more extensions if needed)
+        #     if file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
+        #         try:
+        #             # Load the image and create a CTkImage
+        #             image = Image.open(file_path)
+        #             my_image = CTkImage(light_image=image, size=(100, 100))  # Adjust size as needed
 
-                    # Create a label with the image and add it to the scrollable frame
-                    image_label = CTkLabel(master=self.good_gallery_scrollable, image=my_image, text="")  # Text empty for image-only display
-                    image_label.pack(padx=5, pady=5)
+        #             # Create a label with the image and add it to the scrollable frame
+        #             image_label = CTkLabel(master=self.good_gallery_scrollable, image=my_image, text="")  # Text empty for image-only display
+        #             image_label.pack(padx=5, pady=5)
 
-                except Exception as e:
-                    print(f"Error loading image {file_name}: {e}")
+        #         except Exception as e:
+        #             print(f"Error loading image {file_name}: {e}")
 
         # Bad Posture Frame with Label, Minimize/Maximize Button, and Scrollable Area
         self.bad_frame.pack(fill="x", padx=10, pady=(5, 10))
@@ -115,26 +117,26 @@ class Capture_window:
         # Scrollable area for Bad Posture images
         self.bad_gallery_scrollable.pack(fill="x", padx=5, pady=(0, 5))
 
-        # Specify the folder path containing the images
-        folder_path = f"C:\\Users\\garci\\Desktop\\Sean_Thesis\\patient_data\\{name}\\Bad_Posture"
+        # # Specify the folder path containing the images
+        # folder_path = f"C:\\Users\\admin3\\Posture_Detection-overhaul\\patient_data\\{name}\\Bad_Posture"
 
-        # Loop through all image files in the folder
-        for file_name in os.listdir(folder_path):
-            file_path = os.path.join(folder_path, file_name)
+        # # Loop through all image files in the folder
+        # for file_name in os.listdir(folder_path):
+        #     file_path = os.path.join(folder_path, file_name)
 
-            # Check if the file is an image (you can extend this list with more extensions if needed)
-            if file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
-                try:
-                    # Load the image and create a CTkImage
-                    image = Image.open(file_path)
-                    my_image = CTkImage(light_image=image, size=(100, 100))  # Adjust size as needed
+        #     # Check if the file is an image (you can extend this list with more extensions if needed)
+        #     if file_name.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
+        #         try:
+        #             # Load the image and create a CTkImage
+        #             image = Image.open(file_path)
+        #             my_image = CTkImage(light_image=image, size=(100, 100))  # Adjust size as needed
 
-                    # Create a label with the image and add it to the scrollable frame
-                    image_label = CTkLabel(master=self.bad_gallery_scrollable, image=my_image, text="")  # Text empty for image-only display
-                    image_label.pack(padx=5, pady=5)
+        #             # Create a label with the image and add it to the scrollable frame
+        #             image_label = CTkLabel(master=self.bad_gallery_scrollable, image=my_image, text="")  # Text empty for image-only display
+        #             image_label.pack(padx=5, pady=5)
 
-                except Exception as e:
-                    print(f"Error loading image {file_name}: {e}")
+        #         except Exception as e:
+        #             print(f"Error loading image {file_name}: {e}")
 
 
         # Center live capture frame
@@ -361,9 +363,9 @@ class Capture_window:
                     print(name)
                     print("bruh")
                     
-                    folder = f"C:\\Users\\garci\\Desktop\\Sean_Thesis\\patient_data\\{name}"
-                    good_posture_folder = f"C:\\Users\\garci\\Desktop\\Sean_Thesis\\patient_data\\{name}\\Good_Posture"
-                    bad_posture_folder = f"C:\\Users\\garci\\Desktop\\Sean_Thesis\\patient_data\\{name}\\Bad_Posture"
+                    folder = f"patient_data"
+                    good_posture_folder = f"patient_data\\{name}\\Good_Posture"
+                    bad_posture_folder = f"patient_data\\{name}\\Bad_Posture"
                     # folder = bad_posture_folder if posture_text == "Bad" else good_posture_folder
                     if posture_text == "Bad":
                         img_name = os.path.join(bad_posture_folder, f"image_with_keypoints_{timestamp}.png")

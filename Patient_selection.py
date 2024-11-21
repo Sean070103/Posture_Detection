@@ -3,7 +3,7 @@ from tkinter import messagebox
 import os
 import json
 from Session_gallery import create_session_gallery_section
-from Capture_window import Capture_window
+from capture_window import Capture_window
 # Function to create the Patient Selection section (Right Frame)
 
 class Patient_selection:
@@ -156,7 +156,7 @@ class Patient_selection:
         self.save_patient_data_to_file()  # Save to file
 
         # Create the patient folder with subfolders for good and bad posture
-        base_path = r"C:\Users\garci\Desktop\Sean_Thesis\patient_data"
+        base_path = r"patient_data"
         patient_folder = os.path.join(base_path, name)
         
         try:
